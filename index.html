@@ -34,21 +34,85 @@
         <h1>
 <a name="keyboard-textfield-manager" class="anchor" href="#keyboard-textfield-manager"><span class="octicon octicon-link"></span></a>Keyboard TextField Manager</h1>
 
-<p>Often while developing an app, We ran into an issues where the iPhone UIKeyboard slide up and cover the UITextField/UITextView.</p>
+<p>Often while developing an app, We ran into an issues where the iPhone UIKeyboard slide up and cover the <code>UITextField/UITextView</code>.</p>
 
-<p>You can use IQKeyboardManager to fix this issue with just one line of code:-</p>
+<h2>
+<a name="screen-shot" class="anchor" href="#screen-shot"><span class="octicon octicon-link"></span></a>Screen Shot</h2>
 
-<p><code>[IQKeyBoardManager installKeyboardManager];</code></p>
+<p><img src="./KeyboardTextFieldDemo/Screenshot/IQKeyboardManagerScreenshot.png" alt="image"></p>
 
-<p>Just drag and drop IQKeyboardManager class in your project. In your appDelegate write just one line of code. This will handle all UITextField/UITextView covering problem.</p>
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Feature:-
-1) Support Device Orientation.
-2) Easy integration.
-3) UITextField Category for easily adding Next/Previous and Done button as Keyboard UIToolBar.
-4) Enable/Desable Keyboard Manager with Class methods.
-5) Enable/Desable Next/Previous with Category methods.
-6) Autohandle in Whole application without any extra work or code.</p>
+<p>Just drag and drop <code>IQKeyboardManager</code> class in your project. In your <code>appDelegate.m</code> write just one line of code. This will handle all UITextField/UITextView covering problem.</p>
+
+<div class="highlight highlight-objc"><pre><span class="c1">//AppDelegate.m</span>
+
+<span class="cp">#import "AppDelegate.h"</span>
+<span class="cp">#import "IQKeyboardManager.h"</span>
+
+<span class="k">@implementation</span> <span class="nc">AppDelegate</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+<span class="p">{</span>
+    <span class="c1">//ONE LINE OF CODE.</span>
+    <span class="c1">//Enabling keyboard manager(Use this line to enable managing distance between keyboard &amp; textField/textView).</span>
+    <span class="p">[[</span><span class="n">IQKeyboardManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">setEnable</span><span class="o">:</span><span class="nb">YES</span><span class="p">];</span>
+
+    <span class="c1">//(Optional)Set Distance between keyboard &amp; textField, Default is 10.</span>
+    <span class="c1">//[[IQKeyboardManager sharedManager] setKeyboardDistanceFromTextField:15];</span>
+
+    <span class="c1">//(Optional)Enable autoToolbar behaviour. If It is set to NO. You have to manually create UIToolbar for keyboard.</span>
+    <span class="c1">//[[IQKeyboardManager sharedManager] setEnableAutoToolbar:YES];</span>
+
+    <span class="c1">//(Optional)Setting toolbar behaviour to IQAutoToolbarBySubviews to manage previous/next according to UITextField's hirarchy in it's SuperView. Set it to IQAutoToolbarByTag to manage previous/next according to UITextField's tag property in increasing order.</span>
+    <span class="c1">//[[IQKeyboardManager sharedManager] setToolbarManageBehaviour:IQAutoToolbarBySubviews];</span>
+
+    <span class="c1">//(Optional)Resign textField if touched outside of UITextField/UITextView.</span>
+    <span class="c1">//[[IQKeyboardManager sharedManager] setShouldResignOnTouchOutside:YES];</span>
+
+    <span class="c1">//(Optional)Giving permission to modify TextView's frame</span>
+    <span class="c1">//[[IQKeyboardManager sharedManager] setCanAdjustTextView:YES];</span>
+
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="n">makeKeyAndVisible</span><span class="p">];</span>
+    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+</pre></div>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>IQKeyboardManager is available through <a href="http://cocoapods.org">CocoaPods</a>, to install
+it simply add the following line to your Podfile:</p>
+
+<pre><code>pod 'IQKeyboardManager', '~&gt;2.5.0'
+</code></pre>
+
+<h2>
+<a name="feature-" class="anchor" href="#feature-"><span class="octicon octicon-link"></span></a>Feature:-</h2>
+
+<p>1) Support Device Orientation.</p>
+
+<p>2) Enable/Disable Keyboard Manager when needed with <code>enable</code> boolean.</p>
+
+<p>3) Easiest integration.</p>
+
+<p>4) AutoHandle UIToolbar as a accessoryInputView of textField/textView with <code>enableAutoToolbar</code> boolean.</p>
+
+<p>5) AutoHandle UIToolbar can be manged by superview's hierarchy or can be managed by tag property of textField/textView using <code>toolbarManageBehaviour</code> enum.</p>
+
+<p>6) <code>UIView</code> Category for easily adding Next/Previous and Done button as Keyboard UIToolBar, even automatic with <code>enableAutoToolbar</code> boolean.</p>
+
+<p>7) Enable/Disable Next/Previous buttons with Category methods, even automatic with <code>enableAutoToolbar</code> boolean.</p>
+
+<p>8) Set keyboard distance from textFields using <code>keyboardDistanceFromTextField</code>.</p>
+
+<p>9) Resign keyboard on touching outside using <code>shouldResignOnTouchOutside</code>.</p>
+
+<p>10) Manage UITextView's frame when it's hight is too large to fit on screen with <code>canAdjustTextView</code> boolean.</p>
       </section>
     </div>
 
