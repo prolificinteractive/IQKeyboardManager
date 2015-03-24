@@ -566,7 +566,7 @@ void _IQShowLog(NSString *logString);
 //                movedInsets.bottom = MAX(0, (_lastScrollView.contentOffset.y+_lastScrollView.IQ_height)-MAX(_lastScrollView.contentSize.height, _lastScrollView.IQ_height));
                 if ([_textFieldView isKindOfClass:[UITextView class]]) {
                     UIEdgeInsets edge = ((UITextView *)_textFieldView).textContainerInset;
-                    edge.bottom =bottom;
+                    edge.bottom =bottom - 30;
                     ((UITextView *)_textFieldView).textContainerInset = edge;
                 }
 
