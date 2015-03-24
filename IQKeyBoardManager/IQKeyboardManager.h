@@ -64,6 +64,13 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
 + (instancetype)sharedManager;
 
 /**
+ @property moveWindowIfNeeded
+
+ @abstract Prevent to move window from original position. Default NO.
+ */
+@property(nonatomic, assign) BOOL moveWindowIfNeeded;
+
+/**
     @property enable
 
     @abstract enable/disable managing distance between keyboard and textField. Default is YES(Enabled when class loads in `+(void)load` method).

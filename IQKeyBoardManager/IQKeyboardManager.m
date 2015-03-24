@@ -564,7 +564,12 @@ void _IQShowLog(NSString *logString);
 
                 movedInsets.bottom = MAX(_startingContentInsets.bottom, bottom);
 //                movedInsets.bottom = MAX(0, (_lastScrollView.contentOffset.y+_lastScrollView.IQ_height)-MAX(_lastScrollView.contentSize.height, _lastScrollView.IQ_height));
-                
+                if ([_textFieldView isKindOfClass:[UITextView class]]) {
+                    UIEdgeInsets edge = ((UITextView *)_textFieldView).textContainerInset;
+                    edge.bottom =bottom;
+                    ((UITextView *)_textFieldView).textContainerInset = edge;
+                }
+
                 _IQShowLog([NSString stringWithFormat:@"%@ old ContentInset : %@",[_lastScrollView _IQDescription], NSStringFromUIEdgeInsets(_lastScrollView.contentInset)]);
                 
                 _lastScrollView.contentInset = movedInsets;
@@ -621,7 +626,7 @@ void _IQShowLog(NSString *logString);
         _IQShowLog([NSString stringWithFormat:@"Found Special case for Model Presentation Style: %ld",(long)(rootController.modalPresentationStyle)]);
 
         //  Positive or zero.
-        if (move>=0)
+        if (move>=0 && self.moveWindowIfNeeded)
         {
             // We should only manipulate y.
             rootViewRect.origin.y -= move;
