@@ -141,7 +141,7 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
 /**
     @property canAdjustTextView
 
-    @abstract Adjust textView's frame when it is too big in height. Default is NO.
+    @abstract Adjust textView's frame when it is too big in height. Default is YES.
  */
 @property(nonatomic, assign) BOOL canAdjustTextView;
 

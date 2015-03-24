@@ -221,7 +221,7 @@ void _IQShowLog(NSString *logString);
             
             //Setting it's initial values
             _enable = NO;
-            [self setCanAdjustTextView:NO];
+            [self setCanAdjustTextView:YES];
             [self setShouldPlayInputClicks:NO];
             [self setShouldResignOnTouchOutside:NO];
             [self setOverrideKeyboardAppearance:NO];
@@ -626,7 +626,7 @@ void _IQShowLog(NSString *logString);
         _IQShowLog([NSString stringWithFormat:@"Found Special case for Model Presentation Style: %ld",(long)(rootController.modalPresentationStyle)]);
 
         //  Positive or zero.
-        if (move>=0 && self.moveWindowIfNeeded)
+        if (move>=0)
         {
             // We should only manipulate y.
             rootViewRect.origin.y -= move;
@@ -677,7 +677,7 @@ void _IQShowLog(NSString *logString);
     else
     {
         //  Positive or zero.
-        if (move>=0)
+        if (move>=0 && self.moveWindowIfNeeded)
         {
             switch (interfaceOrientation)
             {
