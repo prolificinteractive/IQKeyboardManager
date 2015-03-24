@@ -1100,18 +1100,28 @@ void _IQShowLog(NSString *logString);
         CGFloat overflow = CGRectGetMaxY(line) - (textView.contentOffset.y + CGRectGetHeight(textView.bounds) - textView.contentInset.bottom - textView.contentInset.top);
         
         //Added overflow conditions (Bug ID: 95)
-        if ( overflow > 0  && overflow < FLT_MAX)
-        {
-            // We are at the bottom of the visible text and introduced a line feed, scroll down (iOS 7 does not do it)
-            // Scroll caret to visible area
-            CGPoint offset = textView.contentOffset;
-            offset.y += overflow + 7; // leave 7 pixels margin
-            
-            // Cannot animate with setContentOffset:animated: or caret will not appear
-            [UIView animateWithDuration:_animationDuration delay:0 options:(_animationCurve|UIViewAnimationOptionBeginFromCurrentState) animations:^{
-                [textView setContentOffset:offset];
-            } completion:NULL];
+//        if ( overflow > 0  && overflow < FLT_MAX)
+//        {
+//            // We are at the bottom of the visible text and introduced a line feed, scroll down (iOS 7 does not do it)
+//            // Scroll caret to visible area
+//            CGPoint offset = textView.contentOffset;
+//            offset.y += overflow + 7; // leave 7 pixels margin
+//            
+//            // Cannot animate with setContentOffset:animated: or caret will not appear
+//            [UIView animateWithDuration:_animationDuration delay:0 options:(_animationCurve|UIViewAnimationOptionBeginFromCurrentState) animations:^{
+//                [textView setContentOffset:offset];
+//            } completion:NULL];
+//        }
+
+        CGPoint offset = textView.contentOffset;
+
+        if (textView.text.length > 0 && line.origin.y >= textView.font.pointSize ) {
+            offset.y = line.origin.y - textView.font.pointSize;
+        } else {
+            offset.y = 0;
         }
+
+        [textView setContentOffset:offset];
     }
 }
 
