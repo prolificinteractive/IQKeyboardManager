@@ -92,7 +92,10 @@ void _IQShowLog(NSString *logString);
     
     /** To save rootViewController */
     __weak  UIViewController *_rootViewController;
-    
+
+    /** LastTextVew's initial contentInsets. */
+    UIEdgeInsets             _startingTextViewContentInsets;
+
     /*******************************************/
     
     /** Variable to save lastScrollView that was scrolled. */
@@ -564,11 +567,6 @@ void _IQShowLog(NSString *logString);
 
                 movedInsets.bottom = MAX(_startingContentInsets.bottom, bottom);
 //                movedInsets.bottom = MAX(0, (_lastScrollView.contentOffset.y+_lastScrollView.IQ_height)-MAX(_lastScrollView.contentSize.height, _lastScrollView.IQ_height));
-                if ([_textFieldView isKindOfClass:[UITextView class]]) {
-                    UIEdgeInsets edge = ((UITextView *)_textFieldView).textContainerInset;
-                    edge.bottom =bottom - 30;
-                    ((UITextView *)_textFieldView).textContainerInset = edge;
-                }
 
                 _IQShowLog([NSString stringWithFormat:@"%@ old ContentInset : %@",[_lastScrollView _IQDescription], NSStringFromUIEdgeInsets(_lastScrollView.contentInset)]);
                 
@@ -1059,6 +1057,10 @@ void _IQShowLog(NSString *logString);
         }
     }
 
+    if ([_textFieldView isKindOfClass:[UITextView class]]) {
+        _startingTextViewContentInsets = ((UITextView *)_textFieldView).contentInset;
+    }
+
     _IQShowLog([NSString stringWithFormat:@"****** %@ ended ******",NSStringFromSelector(_cmd)]);
 }
 
@@ -1066,6 +1068,13 @@ void _IQShowLog(NSString *logString);
 -(void)textFieldViewDidEndEditing:(NSNotification*)notification
 {
     _IQShowLog([NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]);
+
+    //  Getting object
+    _textFieldView = notification.object;
+
+    if ([_textFieldView isKindOfClass:[UITextView class]]) {
+        ((UITextView *)_textFieldView).contentInset = _startingTextViewContentInsets;
+    }
 
     //Removing gesture recognizer   (Enhancement ID: #14)
     [_textFieldView.window removeGestureRecognizer:_tapGesture];
@@ -1096,32 +1105,14 @@ void _IQShowLog(NSString *logString);
     if (_shouldFixTextViewClip == YES)
     {
         UITextView *textView = (UITextView *)notification.object;
-        CGRect line = [textView caretRectForPosition: textView.selectedTextRange.start];
-        CGFloat overflow = CGRectGetMaxY(line) - (textView.contentOffset.y + CGRectGetHeight(textView.bounds) - textView.contentInset.bottom - textView.contentInset.top);
-        
-        //Added overflow conditions (Bug ID: 95)
-//        if ( overflow > 0  && overflow < FLT_MAX)
-//        {
-//            // We are at the bottom of the visible text and introduced a line feed, scroll down (iOS 7 does not do it)
-//            // Scroll caret to visible area
-//            CGPoint offset = textView.contentOffset;
-//            offset.y += overflow + 7; // leave 7 pixels margin
-//            
-//            // Cannot animate with setContentOffset:animated: or caret will not appear
-//            [UIView animateWithDuration:_animationDuration delay:0 options:(_animationCurve|UIViewAnimationOptionBeginFromCurrentState) animations:^{
-//                [textView setContentOffset:offset];
-//            } completion:NULL];
-//        }
 
-        CGPoint offset = textView.contentOffset;
+        UIWindow *keyWindow = [self keyWindow];
+        CGRect textFieldViewRect = [[_textFieldView superview] convertRect:_textFieldView.frame toView:keyWindow];
 
-        if (textView.text.length > 0 && line.origin.y >= textView.font.pointSize ) {
-            offset.y = line.origin.y - textView.font.pointSize;
-        } else {
-            offset.y = 0;
-        }
+        UIEdgeInsets edge = textView.contentInset;
+        edge.bottom = _kbSize.height - (CGRectGetHeight(keyWindow.frame) - textFieldViewRect.origin.y - textFieldViewRect.size.height + textView.font.pointSize/2);
 
-        [textView setContentOffset:offset];
+        textView.contentInset = edge;
     }
 }
 
