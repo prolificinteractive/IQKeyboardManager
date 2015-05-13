@@ -71,6 +71,14 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
 @property(nonatomic, assign) BOOL moveWindowIfNeeded;
 
 /**
+ @property addExtraContentSpace
+
+ @abstract Need extra content space. Default NO.
+ */
+@property(nonatomic, assign) BOOL addExtraContentSpace;
+
+
+/**
     @property enable
 
     @abstract enable/disable managing distance between keyboard and textField. Default is YES(Enabled when class loads in `+(void)load` method).
