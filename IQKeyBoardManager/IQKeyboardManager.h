@@ -77,7 +77,6 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
  */
 @property(nonatomic, assign) BOOL addExtraContentSpace;
 
-
 /**
     @property enable
 
