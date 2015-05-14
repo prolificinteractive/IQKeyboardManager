@@ -571,7 +571,7 @@ void _IQShowLog(NSString *logString);
                 _IQShowLog([NSString stringWithFormat:@"%@ old ContentInset : %@",[_lastScrollView _IQDescription], NSStringFromUIEdgeInsets(_lastScrollView.contentInset)]);
                 
                 _lastScrollView.contentInset = movedInsets;
-                if (_lastScrollView.contentSize.height<_lastScrollView.frame.size.height)
+                if (_lastScrollView.contentSize.height<_lastScrollView.frame.size.height && self.addExtraContentSpace)
                 {
                     CGSize contentSize = _lastScrollView.contentSize;
                     contentSize.height = _lastScrollView.frame.size.height;
